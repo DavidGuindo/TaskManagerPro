@@ -1,0 +1,11 @@
+<div id="modalFilter">
+    <div class="modal-box">
+        <button (click)="cerrar()" type="button" class="btn-close" aria-label="Cerrar">X</button>
+        <div class="modal-content">
+            <app-filter-tasks (emitResult)="sendResults($event)"></app-filter-tasks>
+            <app-result-filter [listTask]="results" (taskSelected)="openModalTask($event)"></app-result-filter>
+        </div>
+    </div>
+</div>
+
+<app-modal-task [taskToUpdate]="selectedTask" (cerrarModal)="closeModalTask()" *ngIf="seeModalTask" [@fade]="seeModalTask ? 'visible' : 'hidden'"></app-modal-task>

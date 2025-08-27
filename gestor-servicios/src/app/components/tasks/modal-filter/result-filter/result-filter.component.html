@@ -1,0 +1,29 @@
+<div class="results-section">
+    <div class="results-table">
+        <div class="table-header">
+            <div class="header-cell">Usuario</div>
+            <div class="header-cell">Descripción</div>
+            <div class="header-cell">Departamento</div>
+            <div class="header-cell">Estado</div>
+            <div class="header-cell">Inicio</div>
+            <div class="header-cell">Finalización</div>
+            <div class="header-cell">Autor</div>
+        </div>
+
+        <div class="table-body">
+            <div class="table-row" *ngFor="let task of listTask" (click)="clickTarea(task)">
+                <div class="table-cell">{{task.ownerName}}</div>
+                <div class="table-cell description">{{task.description}}</div>
+                <div class="table-cell">{{task.dptName}}</div>
+                <div class="table-cell">{{task.stateName}}</div>
+                <div class="table-cell">{{task.dateIni | date:'dd/MM/yyyy'}}</div>
+                <div class="table-cell">{{task.dateEnd | date:'dd/MM/yyyy'}}</div>
+                <div class="table-cell">{{task.authorName}}</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="no-results" *ngIf="!listTask || listTask.length === 0">
+        <p>No se encontraron resultados para los filtros aplicados.</p>
+    </div>
+</div>

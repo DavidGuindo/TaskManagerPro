@@ -1,0 +1,11 @@
+# Angular
+gestor-servicios/.angular/
+gestor-servicios/.vscode/
+gestor-servicios/node_modules/
+gestor-servicios/dist/
+
+# Java
+TechFixer/target/
+
+
+

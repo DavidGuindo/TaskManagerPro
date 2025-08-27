@@ -1,0 +1,56 @@
+<div class="kanban-container">
+    <main class="kanban-main">
+
+    <section class="kanban-column">
+        <h2 class="kanban-col-title-desktop">Activas</h2>
+        <button class="kanban-col-title" (click)="toggleColumna(0)" type="button">
+            Activas <span class="arrow" [class.open]="columnasAbiertas[0]">&#9660;</span>
+        </button>
+        <div class="kanban-col-content" [class.open]="columnasAbiertas[0]">
+            <div class="kanban-card" *ngFor="let task of tasksActive" (dblclick)="clickTarea(task)">
+                <div class="card-txt">{{task.description}}</div>
+                <div class="content-card-aux">
+                    <div class="card-date">{{task.dateIni | date:'dd/MM/yyyy'}}</div>
+                    <div class="card-user">Autor: {{task.authorName}}</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="kanban-column">
+        <h2 class="kanban-col-title-desktop">En Proceso</h2>
+        <button class="kanban-col-title" (click)="toggleColumna(1)" type="button">
+            En Proceso <span class="arrow" [class.open]="columnasAbiertas[1]">&#9660;</span>
+        </button>
+        <div class="kanban-col-content" [class.open]="columnasAbiertas[1]">
+            <div class="kanban-card" *ngFor="let task of tasksProcess" (dblclick)="clickTarea(task)">
+                <div class="card-txt">{{task.description}}</div>
+                <div class="content-card-aux">
+                    <div class="card-date">{{task.dateIni | date:'dd/MM/yyyy'}}</div>
+                    <div class="card-user">Autor: {{task.authorName}}</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="kanban-column">
+        <h2 class="kanban-col-title-desktop">Pausadas</h2>
+        <button class="kanban-col-title" (click)="toggleColumna(2)" type="button">
+            Pausadas <span class="arrow" [class.open]="columnasAbiertas[2]">&#9660;</span>
+        </button>
+        <div class="kanban-col-content" [class.open]="columnasAbiertas[2]">
+            <div class="kanban-card" *ngFor="let task of tasksPaused" (dblclick)="clickTarea(task)">
+                <div class="card-txt">{{task.description}}</div>
+                <div class="content-card-aux">
+                    <div class="card-date">{{task.dateIni | date:'dd/MM/yyyy'}}</div>
+                    <div class="card-user">Autor: {{task.authorName}}</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    </main>
+
+    <app-modal-task *ngIf="seeModalTask" [taskToUpdate]="taskSelected" (cerrarModal)="closeModal()" [@fade]="seeModalTask ? 'visible' : 'hidden'"></app-modal-task>
+
+</div> 

@@ -1,0 +1,18 @@
+<header class="kanban-header">
+    <div class="logo">TaskManagerPro</div>
+    <button class="menu-toggle" (click)="toggleMenu()" aria-label="Abrir menú"> &#9776; </button>
+    <nav class="kanban-nav" [class.open]="menuAbierto">
+        <a (click)="openMantenimientos()" *ngIf="rolId == 1 " >Mantenimientos</a>
+        <a (click)="openModal()" >Nueva tarea</a>
+        <a (click)="openFilter()">Filtrar</a>
+        <a (click)="closeSession()" >Cerrar sesión</a>
+    </nav>
+    <div class="menu-backdrop" *ngIf="menuAbierto" (click)="toggleMenu()"></div>
+</header>
+
+<app-list-tasks  [tasksActive] = "tasksActive" [tasksProcess] = "tasksProcess" [tasksPaused] = "tasksPaused"></app-list-tasks>
+
+<app-modal-task *ngIf="seeModalNewTask" [@fade]="seeModalNewTask ? 'visible' : 'hidden'" (cerrarModal)="closeModal()"></app-modal-task>
+<app-modal-filter *ngIf="seeModalFilter" [@fade]="seeModalFilter ? 'visible' : 'hidden'" (cerrarModal)="closeModal()"></app-modal-filter>
+<app-modal-maintenance *ngIf="seeModalMantenimientos" [@fade]="seeModalMantenimientos ? 'visible' : 'hidden'" (cerrarModal)="closeModal()"></app-modal-maintenance>
+

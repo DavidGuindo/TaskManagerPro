@@ -1,0 +1,72 @@
+<!-- Modal Task Body -->
+<div id="modalTarea">
+    <div class="modal-box">
+        <button (click)="cerrar()" type="button" class="btn-close" aria-label="Cerrar">X</button>
+        <form [formGroup]="formTask" (ngSubmit)="onSubmit()" id="modalContent">
+            <!-- Left Section -->
+            <section class="modal-left">
+                <div class="form-row form-fechas">
+                    <div class="form-info">Inicio: {{taskToUpdate?.dateIni || today | date:'dd/MM/yyyy'}}</div>
+                    <div class="form-info">Fin: {{taskToUpdate?.dateEnd | date:'dd/MM/yyyy'}}</div>
+                    <div class="form-info">Autor: {{taskToUpdate?.authorName}}</div>
+                </div>
+                <div class="form-group">
+                    <label for="usuario">Usuario:</label>
+                    <select formControlName="user" id="usuario">
+                        <option *ngFor="let user of listUsers" [value]="user.id">{{user.userName}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="estado">Estado:</label>
+                    <select formControlName="state" id="estado">
+                        <option *ngFor="let state of listStates" [value]="state.id">{{state.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="department">Departamento:</label>
+                    <select formControlName="dpt" id="department">
+                        <option *ngFor="let dpt of listDpt" [value]="dpt.id">{{dpt.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group descripcion-group">
+                    <label for="descripcion">Descripción:</label>
+                    <textarea formControlName="description" id="descripcion" placeholder="Descripción incidencia"></textarea>
+                </div>
+                <button type="submit" class="btn-save">
+                    <i class="bi bi-floppy"></i> Guardar
+                </button>
+            </section>
+            <!-- Right Section -->
+            <section class="modal-right">
+                <div class="procesos-header">
+                    <h5>PROCESOS</h5>
+                    <button *ngIf="seeButtonNewProcess" type="button" class="btn-add-process" (click)="openNewProcess()">
+                        <i class="bi bi-plus-square"></i> Añadir proceso
+                    </button>
+                </div>
+                <div class="lista-procesos">
+                    <ng-container *ngIf="seeNewProcess">
+                        <div class="proceso-nuevo">
+                            <textarea id="newProcess" formControlName="newProcess" placeholder="Nuevo proceso..."></textarea>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="taskToUpdate">
+                        <div *ngFor="let process of taskToUpdate.processDtos; let i = index" class="proceso-container">
+                            <div class="proceso-item" (click)="toggleProcessExpansion(i)">
+                                <div class="proceso-desc">{{process.description}}</div>
+                                <div class="proceso-date">{{process.date | date:'dd/MM/yyyy'}}</div>
+                                <div class="proceso-author">{{process.authorName}}</div>
+                                <div class="proceso-toggle">
+                                    <i class="bi" [class.bi-chevron-down]="!expandedProcesses[i]" [class.bi-chevron-up]="expandedProcesses[i]"></i>
+                                </div>
+                            </div>
+                            <div class="proceso-detail" *ngIf="expandedProcesses[i]">
+                                <div class="proceso-desc-full">{{process.description}}</div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </section>
+        </form>
+    </div>
+</div>

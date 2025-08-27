@@ -1,0 +1,78 @@
+<div id="modalMantenimiento">
+  <div class="modal-box">
+    <button (click)="cerrar()" type="button" class="btn-close" aria-label="Cerrar">X</button>
+    <!-- Menú superior -->
+    <nav class="maintenance-menu">
+      <button *ngFor="let option of menuOptions" [class.active]="selectedMenu === option" (click)="selectMenu(option)">
+        {{ option }}
+      </button>
+    </nav>
+    <div class="maintenance-body">
+      <!-- Lista izquierda -->
+      <aside class="maintenance-list">
+        <button class="btn-add" (click)="addItem()">
+          <i class="bi bi-plus-square"></i> Añadir {{ selectedMenu | lowercase | slice:0:-1 }}
+        </button>
+        <ul>
+          <li *ngFor="let item of items" [class.selected]="item === selectedItem" (click)="selectItem(item)">
+            <!-- Mostramos el nombre del item, que puede ser el nombre del usuario, departamento o estado. Según el elemento, puede venir con nombres diferentes -->
+            <span>{{ item.nombre || item.userName || item.name }}</span>
+            <button class="btn-delete-inline" (click)="deleteItem(item); $event.stopPropagation()">
+              <i class="bi bi-trash"></i>
+            </button>
+          </li>
+        </ul>
+      </aside>
+      <!-- Zona derecha -->
+      <div *ngIf="errorMessage" class="maintenance-message error">{{errorMessage}}</div>
+      <div *ngIf="successMessage" class="maintenance-message success">{{successMessage}}</div>
+      <section class="maintenance-detail" *ngIf="selectedItem">
+
+        <!-- Aquí iría el formulario de edición según el tipo de elemento -->
+        <form (ngSubmit)="saveItem(selectedItem)">
+          <!-- Según lo que se haya seleccionada se muetra un formulario u otro-->
+          <div *ngIf="selectedMenu === 'Usuarios'">
+            <label class="form-label">Nombre:</label>
+            <input class="form-control" [(ngModel)]="selectedItem.userName" name="userName" required />
+
+            <label class="form-label">Contraseña:</label>
+            <input class="form-control" [(ngModel)]="selectedItem.password" name="password" type="password" required />
+
+            <div class="form-group">
+              <label for="rol">Rol:</label>
+              <select class="form-control" [(ngModel)]="selectedItem.rolID" name="rol">
+                  <option *ngFor="let rol of roles"  [value]="rol.id">{{rol.name}}</option>
+              </select>
+            </div>
+
+            <label class="form-label">Departamentos:</label>
+            <div class="form-check-list">
+              <div *ngFor="let dept of departments" class="form-check">
+                <input class="form-check-input" type="checkbox" [checked]="selectedItem.departmentsID?.includes(dept.id)" (change)="onDepartmentCheck($event, dept.id)"
+                  id="dept-{{dept.id}}">
+                <label class="form-check-label" for="dept-{{dept.id}}">
+                  {{ dept.name }}
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="selectedMenu === 'Departamentos'">
+            <label class="form-label">Nombre:</label>
+            <input class="form-control" [(ngModel)]="selectedItem.name" name="dptName" required />
+          </div>
+
+          <div *ngIf="selectedMenu === 'Estados'">
+            <label class="form-label">Nombre:</label>
+            <input class="form-control" [(ngModel)]="selectedItem.name" name="stateName" required />
+          </div>
+
+          <button type="submit" class="btn-save">
+            <i class="bi bi-floppy"></i> Guardar
+          </button>
+        </form>
+      </section>
+
+    </div>
+  </div>
+</div>
